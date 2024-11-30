@@ -26,7 +26,7 @@ The **Employee Management System** is a Python-based application for managing em
 
 ### Environment Configuration
 
-Create a `.env` file in the project directory with the following format provided in the `.env.example` file for email credentials and database connection details.
+Create a `.env` file in the project directory with the format provided in the `.env.example` file for email credentials and database connection details.
 
 ### Installation
 
