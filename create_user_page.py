@@ -97,6 +97,7 @@ class CreateUserPage(tk.Frame):
                 return
 
             # Check if the password meets the requirements (condition 4)
+            # Example of a valid password for testing: Gd7#gXt1
             regex = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$'
             if not re.match(regex, password):
                 messagebox.showerror('Error', f'The password must contain at least 8 characters, including uppercase, lowercase, number, and special character')
