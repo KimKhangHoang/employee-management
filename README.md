@@ -1,49 +1,62 @@
 # Employee Management System
 
-## Overview
+A desktop app for managing employee and user records, built with Python, Tkinter and SQL Server. Users log in, then add, edit, delete and import employees, manage other users, and contact the administrator by email.
 
-The **Employee Management System** is a Python-based application for managing employees and users, built with SQL Server as the database. It includes features for creating, editing, and importing employee and user data, with an intuitive menu interface and support for user authentication.
-
----
+![The employee list showing ten employees with their ID, name, birthday, gender and salary](docs/screenshot.webp)
 
 ## Features
 
-- **Login** with user authentication.
-- **Employee Management**: view employee list or add, edit, and import employee data.
-- **User Management**: view user list or create and edit users.
-- **Menu Navigation**: accessible options for managing employees and users. Additional options for contacting the system administrator via email and logging out.
-- **Utility Functions**: money formatting and database connection management.
+- **Login** with passwords hashed using bcrypt.
+- **Employees:** view the list, add and edit employees with a date picker for birthdays, and right-click to edit or delete. You can select several employees and delete them at once.
+- **Import:** add employees in bulk from an Excel spreadsheet. [`employee_sample_list.xlsx`](employee_sample_list.xlsx) shows the expected columns.
+- **Users:** view, add, edit and delete users. New passwords need at least 8 characters, with uppercase, lowercase, a number and a special character.
+- **Contact:** send a message to the administrator by email through Gmail.
 
----
+## Tech stack
 
-## Setup
+- Python 3.12 and Tkinter, with tkcalendar for the date picker
+- SQL Server through pyodbc
+- pandas and openpyxl for the Excel import
+- bcrypt for password hashing
+
+## Run it locally
 
 ### Prerequisites
 
-- Python installed.
-- SQL Server with a valid database configured based on the provided template `DB_Schema_Script.sql`.
-- Required Python packages installed (e.g., `pyodbc`, `openpyxl`, `python_dotenv`, `bcrypt`, etc.).
+- Python 3.12
+- SQL Server and an ODBC driver for it
+- A Gmail account with an [app password](https://support.google.com/accounts/answer/185833), only needed for the contact form
 
-### Environment Configuration
+### Steps
 
-Create a `.env` file in the project directory with the format provided in the `.env.example` file for email credentials and database connection details.
+1. Install the dependencies:
 
-### Installation
+   ```sh
+   pip install -r requirements.txt
+   ```
 
-1. Clone the repository.
-2. Set up the environment configuration as described above.
-3. Install the required Python packages in the project.
+2. Create a database in SQL Server and run [`DB_Schema_Script.sql`](DB_Schema_Script.sql) against it to create the tables.
+3. Copy `.env.example` to `.env` and fill in your database and email details.
+4. Add a first user, since you need to log in before you can create users in the app. Generate a password hash:
 
----
+   ```sh
+   python -c "import bcrypt; print(bcrypt.hashpw(b'YourPassword1!', bcrypt.gensalt()).decode())"
+   ```
 
-## Running The Program
+   Then insert the user in SQL Server, pasting in the hash:
 
-Run the `main.py` file to start the application. Explore the menu options to manage employees and users, and other features.
+   ```sql
+   INSERT INTO dbo.users (username, password, name) VALUES (N'admin', N'<hash>', N'Admin');
+   ```
 
----
+5. Start the app:
 
-## Future Enhancements
+   ```sh
+   python main.py
+   ```
 
-- Integration of "New Office", "New Branch", and "Open" functionalities.
-- Improved authentication and authorisation features.
-- Detail testing and debugging for robustness and consistency.
+## Known gaps
+
+- Database queries are built with string formatting rather than parameters, so they're open to SQL injection.
+- The **New Office**, **New Branch** and **Open** menu items are placeholders.
+- There are no automated tests.
