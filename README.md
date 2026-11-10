@@ -4,6 +4,8 @@ A desktop app for managing employee and user records, built with Python, Tkinter
 
 ![The employee list showing ten employees with their ID, name, birthday, gender and salary](docs/screenshot.webp)
 
+[Watch the demo video](https://drive.google.com/file/d/1fkokFHrqTdgTMEzrMHlbeEjTgF8W-uUi/view) (about a minute).
+
 ## Features
 
 - **Login** with passwords hashed using bcrypt.
